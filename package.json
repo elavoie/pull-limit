@@ -1,0 +1,38 @@
+{
+  "name": "pull-limit",
+  "version": "1.0.0",
+  "description": "Limits the total number of items inside a through pull-stream.",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elavoie/pull-limit.git"
+  },
+  "keywords": [
+    "pull-stream",
+    "synchronization"
+  ],
+  "author": "Erick Lavoie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elavoie/pull-limit/issues"
+  },
+  "homepage": "https://github.com/elavoie/pull-limit#readme",
+  "devDependencies": {
+    "debug": "^2.3.3",
+    "pull-eager-buffer": "^1.0.3",
+    "pull-probe": "^1.0.2",
+    "pull-stream": "^3.5.0",
+    "pull-sync": "^1.0.0",
+    "pull-ws": "^3.2.8",
+    "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "pull-stream-function-to-object": "^1.0.1"
+  }
+}
