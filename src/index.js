@@ -56,7 +56,7 @@ module.exports = function (stream, n) {
     }
   }
 
-  return {
+  var limitedStream = {
     sink: function (__read) {
       _read = __read
       stream.sink(function streamRead (abort, streamSinkCb) {
@@ -71,9 +71,7 @@ module.exports = function (stream, n) {
       })
     },
     source: function (abort, cb) {
-      if (abort) return close(abort, cb)
-
-      stream.source(null, function (err, data) {
+      stream.source(abort, function (err, data) {
         if (err) {
           return close(err, cb)
         }
@@ -84,4 +82,15 @@ module.exports = function (stream, n) {
       })
     }
   }
+
+  for (var p in stream) {
+    if (stream.hasOwnProperty(p) &&
+      typeof stream[p] === 'function' &&
+      p !== 'source' &&
+      p !== 'sink') {
+      limitedStream[p] = stream[p].bind(stream)
+    }
+  }
+
+  return limitedStream
 }
