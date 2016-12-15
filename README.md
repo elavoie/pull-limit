@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/elavoie/pull-limit.svg?branch=master)](https://travis-ci.org/elavoie/pull-limit)
 
+# pull-limit
+
 Limits the total number of items inside a through pull-stream. 
 
 Defaults to 1. Once the limit has been reached, a newer item will be read only
