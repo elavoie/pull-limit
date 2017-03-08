@@ -70,6 +70,7 @@ All callbacks (parameters ending with 'cb') have the '(err, data)' signature.
     }, ?n: number) =>
     {
         sink: (read (abort, sinkCb)),
+        updateLimit: (l: number),
         source: (abort, cb)
     }
 
@@ -84,3 +85,4 @@ Properties
    either after the stream closes or the number of elements sinked into
    *stream.sink* but not sourced by *stream.source* is below n, with n having a
    default value of 1.
+4. After *updateLimit* has been called, the n now has the l value.

@@ -70,6 +70,9 @@ module.exports = function (stream, n) {
         read()
       })
     },
+    updateLimit: function (l) {
+      n = l
+    },
     source: function (abort, cb) {
       stream.source(abort, function (err, data) {
         if (err) {

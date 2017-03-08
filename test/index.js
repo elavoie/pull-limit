@@ -174,3 +174,27 @@ tape('Proper draining when the limited stream ends early', function (t) {
     })
   )
 })
+
+tape('Dynamically change the limit value', function (t) {
+  var actual = []
+  var expected = [0, 0, 1, 1, 2, 2, 3, 4, 3, 5, 4, 5]
+
+  var limitedBuffer = limit(buffer())
+
+  pull(
+    pull.count(5),
+    pull.through(function (x) { actual.push(x) }),
+    limitedBuffer,
+    pull.through(function (x) {
+      actual.push(x)
+
+      if (x === 2) {
+        limitedBuffer.updateLimit(2)
+      }
+    }),
+    pull.drain(null, function () {
+      t.deepEqual(actual, expected)
+      t.end()
+    })
+  )
+})
