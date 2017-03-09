@@ -1,4 +1,5 @@
 var toObject = require('pull-stream-function-to-object')
+var EE = require('event-emitter')
 
 module.exports = function (stream, n) {
   n = n || 1
@@ -6,6 +7,9 @@ module.exports = function (stream, n) {
   var started = false
   var ended = false
   var inProcess = 0
+  var processed = 0
+  var intervalStart = 0
+  var intervalEnd = 0
 
   if (typeof stream === 'function') {
     stream = toObject(stream)
@@ -41,7 +45,7 @@ module.exports = function (stream, n) {
 
     if (!started) {
       started = true
-
+      intervalStart = Date.now()
       streamSinkCb = _streamSinkCb
       _streamSinkCb = null
 
@@ -54,6 +58,15 @@ module.exports = function (stream, n) {
       inProcess++
       _read(ended, streamSinkCb)
     }
+  }
+
+  function emitFlow () {
+    var p = processed
+    processed = 0
+    intervalEnd = Date.now()
+    var elapsedInSec = (intervalEnd - intervalStart) / 1000
+    intervalStart = intervalEnd
+    limitedStream.emit('flow-rate', (p / elapsedInSec), elapsedInSec, p)
   }
 
   var limitedStream = {
@@ -80,17 +93,24 @@ module.exports = function (stream, n) {
         }
 
         inProcess--
+        processed++
+        if (processed >= n) {
+          emitFlow()
+        }
         cb(err, data)
         read()
       })
     }
   }
 
+  limitedStream = EE(limitedStream)
+
   for (var p in stream) {
     if (stream.hasOwnProperty(p) &&
       typeof stream[p] === 'function' &&
       p !== 'source' &&
-      p !== 'sink') {
+      p !== 'sink' &&
+      p !== 'on') {
       limitedStream[p] = stream[p].bind(stream)
     }
   }

@@ -198,3 +198,33 @@ tape('Dynamically change the limit value', function (t) {
     })
   )
 })
+
+tape('Measure flow-rate', function (t) {
+  var RATE_PER_SECOND = 10
+  var TOTAL = 30
+  var limitedBuffer = limit(buffer(), 20)
+  var i = 0
+
+  function count (abort, cb) {
+    setTimeout(function () {
+      if (i < TOTAL) {
+        cb(null, i++)
+      } else {
+        cb(true)
+      }
+    }, 1000 / RATE_PER_SECOND)
+  }
+
+  limitedBuffer.on('flow-rate', function (rate, elapsed, n) {
+    log('measured rate: ' + rate + ', elapsed: ' + elapsed + ', n: ' + n)
+    t.ok(Math.abs(rate - RATE_PER_SECOND) / RATE_PER_SECOND < 0.05)
+  })
+
+  pull(
+    count,
+    limitedBuffer,
+    pull.drain(null, function () {
+      t.end()
+    })
+  )
+})

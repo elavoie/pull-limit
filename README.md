@@ -71,6 +71,7 @@ All callbacks (parameters ending with 'cb') have the '(err, data)' signature.
     {
         sink: (read (abort, sinkCb)),
         updateLimit: (l: number),
+        on('flow-rate', cb(rate, elapsedTimeInSec, n),
         source: (abort, cb)
     }
 
@@ -86,3 +87,4 @@ Properties
    *stream.sink* but not sourced by *stream.source* is below n, with n having a
    default value of 1.
 4. After *updateLimit* has been called, the n now has the l value.
+5. After *n* values have been processed, the 'flow-rate' event with the rate at which values have been trhrough, is emited.
