@@ -85,6 +85,7 @@ module.exports = function (stream, n) {
     },
     updateLimit: function (l) {
       n = l
+      read()
     },
     source: function (abort, cb) {
       stream.source(abort, function (err, data) {
