@@ -1,6 +1,6 @@
 {
   "name": "pull-limit",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Limits the total number of items inside a through pull-stream.",
   "main": "src/index.js",
   "directories": {

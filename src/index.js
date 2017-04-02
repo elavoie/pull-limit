@@ -84,6 +84,9 @@ module.exports = function (stream, n) {
       })
     },
     updateLimit: function (l) {
+      if ((typeof l) !== 'number' || l <= 0) {
+        throw new Error('Invalid limit ' + l)
+      }
       n = l
       read()
     },
