@@ -15,6 +15,7 @@ Quick Examples
 
 With a through pull-stream:
 
+````
     var pull = require('pull-stream')
     var buffer = require('pull-eager-buffer')
     var limit = require('pull-limit')
@@ -27,11 +28,13 @@ With a through pull-stream:
       pull.through(console.log),
       pull.drain()
     )
+````
 
 With a WebSocket, so that only one value is in transit and processed at a time.
 The next value is only sent when the result has been received. Otherwise, the
 socket would eagerly pull all the values:
 
+````
     var pull = require('pull-stream')
     var ws = require('pull-ws')
     var limit = require('pull-limit')
@@ -56,14 +59,15 @@ socket would eagerly pull all the values:
         pull.drain()      
       )
     }) 
+````
 
 Signature
 =========
 
 The following signature follows the [js module signature
 syntax](https://github.com/elavoie/js-module-signature-syntax) and conventions.
-All callbacks (parameters ending with 'cb') have the '(err, data)' signature.
-    
+All callbacks (parameters ending with ````cb````) have the ````(err, data)```` signature.
+````    
     limit: (stream: {
         sink: (streamRead: (abort, streamSinkCb)),
         source: (abort, cb)
@@ -74,7 +78,7 @@ All callbacks (parameters ending with 'cb') have the '(err, data)' signature.
         on('flow-rate', cb(rate, elapsedTimeInSec, n),
         source: (abort, cb)
     }
-
+````
 
 Properties
 ==========
