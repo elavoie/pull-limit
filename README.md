@@ -75,7 +75,7 @@ All callbacks (parameters ending with ````cb````) have the ````(err, data)```` s
     {
         sink: (read (abort, sinkCb)),
         updateLimit: (l: number),
-        on('flow-rate', cb(rate, elapsedTimeInSec, n),
+        on('flow-rate', cb(rate, elapsedTimeInSec, n)),
         source: (abort, cb)
     }
 ````
